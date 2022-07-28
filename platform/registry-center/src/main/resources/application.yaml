@@ -1,0 +1,17 @@
+## 启动顺序
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    active: dev
+
+server:
+  port: 20000
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+  instance:
+    # 讲 localhost 指向本机(改host)
+    hostname: localhost
