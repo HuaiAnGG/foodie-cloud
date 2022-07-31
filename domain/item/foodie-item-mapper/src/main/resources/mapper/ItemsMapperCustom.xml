@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="wiki.laona.cloud.mapper.item.mapper.ItemsMapperCustom">
+
+
+    <resultMap id="myItemCommentVO" type="wiki.laona.cloud.item.pojo.vo.ItemCommentVO">
+        <result column="commentLevel" property="commentLevel"/>
+        <result column="content" property="content"/>
+        <result column="specName" property="specName"/>
+        <result column="createdTime" property="createdTime"/>
+        <result column="userFace" property="userFace"/>
+        <result column="nickname" property="nickname"/>
+    </resultMap>
+
+    <select id="queryItemComments" parameterType="map" resultMap="myItemCommentVO">
+        SELECT
+                ic.comment_level as commentLevel,
+                ic.content as content,
+                ic.spec_name as specName,
+                ic.created_time as createdTime,
+                u.face as userFace,
+                u.nickname as nickname
+        FROM items_comments ic
+        LEFT JOIN users u
+        ON ic.user_id = u.id
+        WHERE ic.item_id = #{paramsMap.itemId}
+        <if test=" paramsMap.level != null and paramsMap.level != '' ">
+            AND ic.comment_level = #{paramsMap.level}
+        </if>
+    </select>
+
+    <select id="queryItemsBySpecIds" parameterType="list" resultType="wiki.laona.cloud.item.pojo.vo.ShopcartVO">
+        SELECT
+            item.id as itemId,
+            item.item_name as itemName,
+            img.url as itemImgUrl,
+            spec.id as specId,
+            spec.`name` as specName,
+            spec.price_discount as priceDiscount,
+            spec.price_normal as priceNormal
+        FROM
+            items_spec spec
+                LEFT JOIN items item
+                          ON
+                              item.id = spec.item_id
+                LEFT JOIN items_img img
+                          ON
+                              img.item_id = item.id
+        WHERE img.is_main = 1
+          AND spec.id IN
+            <foreach collection="paramsList" item="specId" index="index" open="(" close=")" separator=",">
+                #{specId}
+            </foreach>
+    </select>
+
+    <!--
+        乐观锁解决减少库存
+    -->
+    <update id="decreaseItemSpecStock" >
+        update
+            items_spec
+        set
+            stock = stock - #{pendingCounts}
+        where id = #{specId}
+        and stock >= #{pendingCounts}
+    </update>
+</mapper>
