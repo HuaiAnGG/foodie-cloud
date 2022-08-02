@@ -28,3 +28,4 @@ hs_err_pid*
 build/
 **/*/target/
 **/*/resources/application-txcloud.yml
+**/*/file-upload-prod.properties

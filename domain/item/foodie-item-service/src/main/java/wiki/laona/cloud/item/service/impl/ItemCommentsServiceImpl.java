@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import wiki.laona.cloud.item.pojo.vo.MyCommentVO;
 import wiki.laona.cloud.item.service.ItemCommentsService;
-import wiki.laona.cloud.mapper.item.mapper.ItemsCommentsMapperCustom;
+import wiki.laona.cloud.item.mapper.ItemsCommentsMapperCustom;
 import wiki.laona.cloud.pojo.PagedGridResult;
 import wiki.laona.cloud.services.BaseService;
 

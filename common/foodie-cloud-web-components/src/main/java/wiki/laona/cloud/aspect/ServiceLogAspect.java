@@ -47,7 +47,7 @@ public class ServiceLogAspect {
      * @return 执行结果
      * @throws Throwable 抛出异常
      */
-    @Around("execution(* wiki.laona..*.service..*.*(..))")
+    @Around("execution(* wiki.laona.cloud.user..*.service..*.*(..))")
     public Object recordTimeLog(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Class<?> aClass = joinPoint.getTarget().getClass();

@@ -32,7 +32,7 @@ public class Swagger2 {
                 .select()
                 .apis(RequestHandlerSelectors
                                 .withClassAnnotation(RestController.class))     // 指定注解扫描
-                        // .basePackage("wiki.laona.controller"))   // 指定controller包
+                        // .basePackage("wiki.laona.cloud.user.controller"))   // 指定controller包
                 .paths(PathSelectors.any())         // 所有controller
                 .build();
     }
